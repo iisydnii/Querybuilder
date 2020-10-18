@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/sydniward/Desktop/Server Side/Projects/Lab5/Lab5/Lab5.csproj": {}
+    "/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/Lab5.csproj": {}
   },
   "projects": {
-    "/Users/sydniward/Desktop/Server Side/Projects/Lab5/Lab5/Lab5.csproj": {
+    "/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/Lab5.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/sydniward/Desktop/Server Side/Projects/Lab5/Lab5/Lab5.csproj",
+        "projectUniqueName": "/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/Lab5.csproj",
         "projectName": "Lab5",
-        "projectPath": "/Users/sydniward/Desktop/Server Side/Projects/Lab5/Lab5/Lab5.csproj",
+        "projectPath": "/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/Lab5.csproj",
         "packagesPath": "/Users/sydniward/.nuget/packages/",
-        "outputPath": "/Users/sydniward/Desktop/Server Side/Projects/Lab5/Lab5/obj/",
+        "outputPath": "/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/sydniward/.config/NuGet/NuGet.Config"
