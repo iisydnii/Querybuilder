@@ -49,7 +49,6 @@
 /Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/bin/Debug/netcoreapp3.1/runtimes/win-arm64/native/e_sqlite3.dll
 /Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/bin/Debug/netcoreapp3.1/runtimes/win-x64/native/e_sqlite3.dll
 /Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/bin/Debug/netcoreapp3.1/runtimes/win-x86/native/e_sqlite3.dll
-/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/obj/Debug/netcoreapp3.1/Lab5.csprojAssemblyReference.cache
 /Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/obj/Debug/netcoreapp3.1/Lab5.AssemblyInfoInputs.cache
 /Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/obj/Debug/netcoreapp3.1/Lab5.AssemblyInfo.cs
 /Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/obj/Debug/netcoreapp3.1/Lab5.csproj.CoreCompileInputs.cache
@@ -57,3 +56,4 @@
 /Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/obj/Debug/netcoreapp3.1/Lab5.dll
 /Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/obj/Debug/netcoreapp3.1/Lab5.pdb
 /Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/obj/Debug/netcoreapp3.1/Lab5.genruntimeconfig.cache
+/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/obj/Debug/netcoreapp3.1/Lab5.csprojAssemblyReference.cache

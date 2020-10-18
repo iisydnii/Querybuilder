@@ -16,7 +16,7 @@ namespace Lab5
 
         public string SQLiteConnection { get; set;}
 
-        public void ReadAll(string tableName)
+        public List<Dictionary<String, List<String>>> ReadAll(string tableName)
         {
             using (var connection = new SqliteConnection(SQLiteConnection))
             {
@@ -32,8 +32,29 @@ namespace Lab5
                     while (reader.Read())
                     {
                         List<string> list = new List<string>();
-                        list.Add(reader[index + 1].ToString());
-                        list.Add(reader[index + 2].ToString());
+                        switch (tableName)
+                        {
+                            case "Course":
+                                list.Add(reader["MajorId"].ToString());
+                                list.Add(reader["CourseNumber"].ToString());
+                                list.Add(reader["Name"].ToString());
+                                list.Add(reader["CreditHour"].ToString());
+                                break;
+                            case "Major":
+                                list.Add(reader["Abbreviation"].ToString());
+                                list.Add(reader["Name"].ToString());
+                                break;
+                            case "sqlite_sequence":
+                                list.Add(reader["seq"].ToString());
+                                break;
+                            case "Student":
+                                list.Add(reader["FirstName"].ToString());
+                                list.Add(reader["LastName"].ToString());
+                                break;
+                            default:
+                                Console.WriteLine("Error!");
+                                break;
+                        }
 
                         database.Add(new Dictionary<String, List<String>>()
                         {{reader[index].ToString() , list}});
@@ -43,6 +64,7 @@ namespace Lab5
                 {
                     Console.WriteLine("No rows found.");
                 }
+                return database;
             }
         }
 
