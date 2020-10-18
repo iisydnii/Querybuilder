@@ -141,7 +141,7 @@ namespace Lab5
                 //    while (reader.Read())
                 //    {
                 //        key = reader[index].ToString();
-                //        row = Int32.Parse(key);
+                //        row = Int32.Parse(key) + 1;
                 //    }
                 //}
                 //// PROBLEM With the AUTO-INCREMENTING ID
