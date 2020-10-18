@@ -129,17 +129,30 @@ namespace Lab5
             using (var connection = new SqliteConnection(SQLiteConnection))
             {
                 connection.Open();
+                GetKey(tableName);
                 var command = connection.CreateCommand();
-                // PROBLEM WITH AUTO-INCREMENTING ID
+                // PROBLEM With the AUTO-INCREMENTING ID
+                //command.CommandText = "select count(Id) from " + tableName;
+                //SqliteDataReader reader = command.ExecuteReader();
 
+                //if (reader.HasRows)
+                //{
+                //    int index = 0;
+                //    while (reader.Read())
+                //    {
+                //        key = reader[index].ToString();
+                //        row = Int32.Parse(key);
+                //    }
+                //}
+                //// PROBLEM With the AUTO-INCREMENTING ID
                 switch (tableName)
                 {
                     case "Course":
                         command.CommandText = "INSERT INTO " + tableName +
                         " (Id, MajorId, CourseNumber, Name, CreditHour) VALUES ("
-                        + row + create[1] + create[2] + create[3] + create[4]
+                        + row.ToString() + create[1] + create[2] + create[3] + create[4]
                          + ")";
-                        command.Parameters.AddWithValue("Id", row);
+                        command.Parameters.AddWithValue("Id", row.ToString());
                         command.Parameters.AddWithValue("MajorId", create[1]);
                         command.Parameters.AddWithValue("CourseNumber", create[2]);
                         command.Parameters.AddWithValue("Name", create[3]);
@@ -147,9 +160,9 @@ namespace Lab5
                         break;
                     case "Major":
                         command.CommandText = "INSERT INTO " + tableName +
-                    " (Id, Abbreviation, Name) VALUES (" + row
+                    " (Id, Abbreviation, Name) VALUES (" + row.ToString()
                     + create[1] + create[2] + ")";
-                        command.Parameters.AddWithValue("Id", row);
+                        command.Parameters.AddWithValue("Id", row.ToString());
                         command.Parameters.AddWithValue("Abbreviation", create[1]);
                         command.Parameters.AddWithValue("Name", create[2]);
                         break;
@@ -162,9 +175,9 @@ namespace Lab5
                         break;
                     case "Student":
                         command.CommandText = "INSERT INTO " + tableName +
-                    " (Id, FirstName, LastName) VALUES (" + row
+                    " (Id, FirstName, LastName) VALUES (" + row.ToString()
                     + create[1] + create[2] + ")";
-                        command.Parameters.AddWithValue("Id", row);
+                        command.Parameters.AddWithValue("Id", row.ToString());
                         command.Parameters.AddWithValue("FirstName", create[1]);
                         command.Parameters.AddWithValue("LastName", create[2]);
                         break;

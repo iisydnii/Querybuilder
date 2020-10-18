@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.ItemProperties.Lab5 PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="QueryBuilder.cs">
     <Files>
-      <File FileName="QueryBuilder.cs" Line="133" Column="53" />
-      <File FileName="Program.cs" Line="17" Column="1" />
+      <File FileName="QueryBuilder.cs" Line="139" Column="20" />
+      <File FileName="Program.cs" Line="17" Column="34" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
