@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.ItemProperties.Lab5 PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="QueryBuilder.cs">
     <Files>
-      <File FileName="QueryBuilder.cs" Line="143" Column="45" />
-      <File FileName="Program.cs" />
+      <File FileName="Program.cs" Line="14" Column="13" />
+      <File FileName="QueryBuilder.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,9 +14,6 @@
             </Node>
           </Node>
         </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
