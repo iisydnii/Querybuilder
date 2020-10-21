@@ -24,48 +24,53 @@ namespace Lab5
 
         public List<Dictionary<int, List<String>>> ReadAll(SqliteConnection connection, string tableName)
         {
-                var command = connection.CreateCommand();
-                command.CommandText = $"select * from {tableName}";
-                SqliteDataReader reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            list.Add(reader.GetName(i) + ": " + reader.GetValue(i));
-                            database.Add(new Dictionary<int, List<String>>()
-                            {{ i , list}});
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("No rows found.");
-                }
-            database.ToString();
-                return database;
-        }
-
-        public List<Dictionary<int, List<String>>> Read(SqliteConnection connection, string tableName, string key)
-        {
+            database.Clear();
             var command = connection.CreateCommand();
-            command.CommandText = $"select * from {tableName} where id = {key}";
+            command.CommandText = $"select * from {tableName}";
             SqliteDataReader reader = command.ExecuteReader();
 
             if (reader.HasRows)
             {
                 while (reader.Read())
                 {
-
+                        
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
                         list.Add(reader.GetName(i) + ": " + reader.GetValue(i));
-                        selectiveQuery.Add(new Dictionary<int, List<String>>()
-                            {{ i , list}});
+                        database.Add(new Dictionary<int, List<String>>()
+                        {{ i , list}});
                     }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No rows found.");
+            }
+            
+            return database;
+        }
+
+        public List<Dictionary<int, List<String>>> Read(SqliteConnection connection, string tableName, string key)
+        {
+            var command = connection.CreateCommand();
+            command.CommandText = $"select count(*) from {tableName} where id = {key}";
+            var totalRow = command.ExecuteScalar();
+            int.TryParse(totalRow.ToString(), out int j);
+            command.CommandText = $"select * from {tableName} where id = {key}";
+            SqliteDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                int index = 0;
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        list.Add(reader.GetName(i).ToString() + ": " + reader.GetValue(i).ToString());
+                    }
+                    selectiveQuery.Add(new Dictionary<int, List<String>>()
+                            {{ index , list}});
+                    index = index + 1;
                 }
             }
             else
