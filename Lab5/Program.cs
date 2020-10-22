@@ -1,4 +1,14 @@
-﻿using System;
+﻿//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Project: Lab 5
+// File Name:   Program.cs
+// Description: Driver 
+// Course: CSCI-2910-940 - Server Side Web Prog
+// Author: Sydni Ward
+//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.IO;
 using System.Collections.Generic;
 using Microsoft.Data.Sqlite;
@@ -9,31 +19,49 @@ namespace Lab5
     {
         static void Main(string[] args)
         {
-            List<string> listforKeys = new List<string>();
-            List<string> listforValues = new List<string>();
-            List<string> update = new List<string>();
-            Dictionary<List<string>, List<string>> create = new Dictionary<List<string>, List<string>>();
-            string dbSource = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.ToString();
-            Console.WriteLine(dbSource);
-            
-            
-            QueryBuilder queryBuilder = new QueryBuilder();
-            //listforKeys.Add("Abbreviation");
-            //listforKeys.Add("Name");
+            Dictionary<string, string> create;
+            create = new Dictionary<string, string>();
 
-            //listforValues.Add("CSCI");
-            //listforValues.Add("Computer Science");
-
-            //create.Add(listforKeys, listforValues);
-            using (var connection = new SqliteConnection($"Data Source ={dbSource}/Database/myDatabase.db"))
+            string dbSource = Directory.GetParent                               //dbSource is for getting the root directory 
+                (Directory.GetCurrentDirectory()).Parent.Parent.ToString();
+           
+            using (var connection = new SqliteConnection                        //estasblishing a connection to the database
+                ($"Data Source ={dbSource}/Database/myDatabase.db"))
             {
-                connection.Open();
-                queryBuilder.Read(connection, "Student", "1");
-                queryBuilder.Read(connection, "Course", "1");
-                //queryBuilder.Create(connection, "Major", create);
-                queryBuilder.Update(connection, "Student", 2, "FirstName = 'Sydni'");
-                queryBuilder.Update(connection, "Student", 2, "LastName = 'Ward'");
-                queryBuilder.Delete(connection, "Student", 5);
+                QueryBuilder queryBuilder = new QueryBuilder(connection);                     //Creating a instance of QueryBuilder class
+                //queryBuilder.Read("Student", "1");                  //Reading single line of Student table 
+                //queryBuilder.Read(connection, "Course", "1");                   //Reading single line of Course table
+                //create.Add("Abbreviation", "ACCT");
+                //create.Add("Name", "Accounting");
+                //queryBuilder.Create("Major", create);
+                //create.Clear();
+                //create.Add("Abbreviation", "MATH");
+                //create.Add("Name", "Math");
+                //queryBuilder.Create("Major", create);
+                //create.Clear();
+                //create.Add("MajorId", "2");
+                //create.Add("CourseNumber", "101");
+                //create.Add("Name", "Accounting");
+                //create.Add("CreditHour", "3");
+                //queryBuilder.Create("Course", create);
+                //create.Clear();
+                //create.Add("FirstName", "Edward");
+                //create.Add("LastName", "Hall");
+                //queryBuilder.Create("Student", create);
+                //create.Clear();
+                //create.Add("FirstName", "Reagan");
+                //create.Add("LastName", "Mullins");
+                //queryBuilder.Create("Student", create);
+                //create.Clear();
+                //create.Add("FirstName", "Nick");
+                //create.Add("LastName", "Sels");
+                //queryBuilder.Create("Student", create);
+                //create.Clear();
+                queryBuilder.Update("Student", 7,                  
+                    "LastName = 'Mullins'");
+                queryBuilder.Update("Student", 8,
+                    "LastName = 'Sells'");
+                //queryBuilder.Delete("Student", 1);
             }
 
         }

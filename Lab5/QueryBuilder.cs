@@ -1,6 +1,16 @@
-﻿using System;
+﻿//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Project: Lab 5
+// File Name: QueryBuilder
+// Description: Class for SQL Command builds and executions
+// Course: CSCI-2910-940 - Server Side Web Prog
+// Author: Sydni Ward
+//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
 using Microsoft.Data.Sqlite;
 
 namespace Lab5
@@ -9,35 +19,50 @@ namespace Lab5
     {
         
         List<string> list = new List<string>();
+        List<string> list2 = new List<string>();
         List<Dictionary<int, List<String>>> database;
         List<Dictionary<int, List<String>>> selectiveQuery;
-        
 
-        public QueryBuilder()
+        /// <summary>
+        /// Parameterized constructor: QueryBuilder
+        /// </summary>
+        /// <param name="SqliteConnection connection">Connection to the database</param>
+        public QueryBuilder(SqliteConnection connection)
         {
             database = new List<Dictionary<int, List<String>>>();
-            selectiveQuery = new List<Dictionary<int, List<String>>>();
-            this.SQLiteConnection = SQLiteConnection;
+            selectiveQuery = new List<Dictionary<int, List<string>>>();
+            this.SQLiteConnection = connection;                                      //setting connection
         }
 
-        public string SQLiteConnection { get; set;}
+        /// <summary>
+        /// Property : for establiching connection 
+        /// </summary>
+        public SqliteConnection SQLiteConnection { get; set; }  //Open and Return Connection
 
-        public List<Dictionary<int, List<String>>> ReadAll(SqliteConnection connection, string tableName)
+
+        /// <summary>
+        /// ReadAll - Read entire of selected table
+        /// </summary>
+        /// <param name="string tableName">selected table</param>
+        /// <returns> Database dictionary </returns>
+        public List<Dictionary<int, List<String>>> ReadAll
+            (SqliteConnection SQLiteConnection, string tableName)
         {
-            database.Clear();
-            var command = connection.CreateCommand();
-            command.CommandText = $"select * from {tableName}";
-            SqliteDataReader reader = command.ExecuteReader();
+            SQLiteConnection.Open();
+            database.Clear();                                                   //Empty the dictionary 
+            var command = SQLiteConnection.CreateCommand();
+            command.CommandText = $"select * from {tableName}";                 //Select all SQL Command
+            SqliteDataReader reader = command.ExecuteReader();                  //Execute reader
 
-            if (reader.HasRows)
+            if (reader.HasRows)                                                 //If there are rows in database
             {
                 while (reader.Read())
                 {
-                        
+
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
-                        list.Add(reader.GetName(i) + ": " + reader.GetValue(i));
-                        database.Add(new Dictionary<int, List<String>>()
+                        list.Add(reader.GetName(i) + ": " + reader.GetValue(i)); //GetName of colmun and that value of that row 
+                        database.Add(new Dictionary<int, List<String>>()         //Add it to a list then add that list to a dictionary key
                         {{ i , list}});
                     }
                 }
@@ -46,29 +71,35 @@ namespace Lab5
             {
                 Console.WriteLine("No rows found.");
             }
-            
+
             return database;
         }
 
-        public List<Dictionary<int, List<String>>> Read(SqliteConnection connection, string tableName, string key)
+        /// <summary>
+        /// Read - Read single line of selected table
+        /// </summary>
+        /// <param name="string tableName"> selected table </param>
+        /// <param name="string key"> selected key </param>
+        /// <returns> selectiveQuery dictionary </returns>
+        public List<Dictionary<int, List<String>>> Read                         //Reading single line
+            (string tableName, string key)
         {
-            var command = connection.CreateCommand();
-            command.CommandText = $"select count(*) from {tableName} where id = {key}";
-            var totalRow = command.ExecuteScalar();
-            int.TryParse(totalRow.ToString(), out int j);
-            command.CommandText = $"select * from {tableName} where id = {key}";
+            SQLiteConnection.Open();
+            SqliteCommand command = SQLiteConnection.CreateCommand();
+            command.CommandText = $"select * from {tableName} where id = {key}";//Select * where the id = key input - SQL Command
             SqliteDataReader reader = command.ExecuteReader();
 
-            if (reader.HasRows)
+            if (reader.HasRows)                                                 //If there are rows in database
             {
                 int index = 0;
                 while (reader.Read())
                 {
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
-                        list.Add(reader.GetName(i).ToString() + ": " + reader.GetValue(i).ToString());
+                        list.Add(reader.GetName(i).ToString() + ": " +          //GetName of colmun and that value of that row 
+                            reader.GetValue(i).ToString());
                     }
-                    selectiveQuery.Add(new Dictionary<int, List<String>>()
+                    selectiveQuery.Add(new Dictionary<int, List<String>>()      //Add it to a list then add that list to a dictionary key
                             {{ index , list}});
                     index = index + 1;
                 }
@@ -80,34 +111,87 @@ namespace Lab5
             return selectiveQuery;
         }
 
-        //public void Create(SqliteConnection connection, string tableName, Dictionary<List<string>, List<string>> create)
-        //{
-        //    ReadAll(connection, tableName);
-        //    var command = connection.CreateCommand();
-        //    for (int i = 0; i < create.Count())
-
-        //    command.CommandText = $"INSERT INTO {tableName} ( {create.Keys} ) VALUES ( {create.TryGetValue(create.Keys)} )";
-        //    command.ExecuteNonQuery();
-        //    ReadAll(connection, tableName);
-        //}
-
-        public void Update(SqliteConnection connection, string tableName, int key , string update)
+        /// <summary>
+        /// Create - Insert new row
+        /// </summary>
+        /// <param name="string tableName"> selected table </param>
+        /// <param name="Dictionary<string, string> create"> selected insert values</param>
+        public void Create(string tableName, Dictionary<string, string> create)
         {
-            ReadAll(connection, tableName);
-            var command = connection.CreateCommand();
+            SQLiteConnection.Open();
 
-            command.CommandText = $"UPDATE {tableName} SET {update} WHERE id = {key} ";
-            command.ExecuteNonQuery();
-            ReadAll(connection, tableName);
+            list.Clear();
+            list2.Clear();
+            string updateCol = "";
+            string updateVal = "";
+            
+            var command = SQLiteConnection.CreateCommand();
+            foreach (var item in create)                                        //seperating the keys and value into their own lists
+            {
+                list.Add(item.Key);
+                list2.Add(item.Value);
+            }
+            
+            for (int i = 0; i < list.Count; i++)                                // turn the key lists into one single string 
+            {
+                if (i == 0)
+                {
+                    updateCol = " " + list[i].ToString();
+                }
+                else
+                {
+                    updateCol += ", " + list[i].ToString();
+                }
+            }
+            for (int i = 0; i < list2.Count; i++)                               // turn the values lists into one single string 
+            {
+                if (i == 0)
+                {
+                    updateVal = "'" + list2[i].ToString() + "'";
+                }
+                else
+                {
+                    updateVal += ", '" + list2[i].ToString() + "'";
+                }            }
+            command.CommandText = $"INSERT INTO {tableName} ( {updateCol} ) " + //insert sql statment with given data
+                $"VALUES ( {updateVal} )";
+            command.ExecuteNonQuery();                                          //Excute
+
+            ReadAll(SQLiteConnection, tableName);
         }
 
-        public void Delete(SqliteConnection connection, string tableName, int key)
+        /// <summary>
+        /// Update - Update selected col/row of selected table
+        /// </summary>
+        /// <param name="string tableName"> selected table </param>
+        /// <param name="string key"> selected key </param>
+        /// <param name="string update"> selected col/row update</param>
+        public void Update(string tableName, int key, string update)
         {
-            ReadAll(connection, tableName);
-            var command = connection.CreateCommand();
-            command.CommandText = $"delete from {tableName} where id = {key}";
-            command.ExecuteNonQuery();
-            ReadAll(connection, tableName);
+            SQLiteConnection.Open();
+            ReadAll(SQLiteConnection, tableName);
+            var command = SQLiteConnection.CreateCommand();
+
+            command.CommandText = $"UPDATE {tableName} SET {update} " +         //UPDATE selected table SET to where and what update say where the id = key input - SQL Command
+                $"WHERE id = {key} ";
+            command.ExecuteNonQuery();                                          //Execute a non-query
+            ReadAll(SQLiteConnection, tableName);
+        }
+
+        /// <summary>
+        /// Delete - Delete selected row of selected table with selected key
+        /// </summary>
+        /// <param name="string tableName"> selected table </param>
+        /// <param name="string key"> selected key </param>
+        public void Delete(string tableName,
+            int key)
+        {
+            SQLiteConnection.Open();
+            ReadAll(SQLiteConnection, tableName);
+            var command = SQLiteConnection.CreateCommand();
+            command.CommandText = $"delete from {tableName} where id = {key}";  //Delete selected table where the id = key input - SQL Command
+            command.ExecuteNonQuery();                                          ////Execute a non-query
+            ReadAll(SQLiteConnection, tableName);
         }
 
     }
