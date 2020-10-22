@@ -45,8 +45,7 @@ namespace Lab5
         /// </summary>
         /// <param name="string tableName">selected table</param>
         /// <returns> Database dictionary </returns>
-        public List<Dictionary<int, List<String>>> ReadAll
-            (SqliteConnection SQLiteConnection, string tableName)
+        public List<Dictionary<int, List<String>>> ReadAll(string tableName)
         {
             SQLiteConnection.Open();
             database.Clear();                                                   //Empty the dictionary 
@@ -82,11 +81,11 @@ namespace Lab5
         /// <param name="string key"> selected key </param>
         /// <returns> selectiveQuery dictionary </returns>
         public List<Dictionary<int, List<String>>> Read                         //Reading single line
-            (string tableName, string key)
+            (string tableName, string id)
         {
             SQLiteConnection.Open();
             SqliteCommand command = SQLiteConnection.CreateCommand();
-            command.CommandText = $"select * from {tableName} where id = {key}";//Select * where the id = key input - SQL Command
+            command.CommandText = $"select * from {tableName} where id = {id}";//Select * where the id = key input - SQL Command
             SqliteDataReader reader = command.ExecuteReader();
 
             if (reader.HasRows)                                                 //If there are rows in database
@@ -157,7 +156,7 @@ namespace Lab5
                 $"VALUES ( {updateVal} )";
             command.ExecuteNonQuery();                                          //Excute
 
-            ReadAll(SQLiteConnection, tableName);
+            ReadAll(tableName);
         }
 
         /// <summary>
@@ -166,16 +165,16 @@ namespace Lab5
         /// <param name="string tableName"> selected table </param>
         /// <param name="string key"> selected key </param>
         /// <param name="string update"> selected col/row update</param>
-        public void Update(string tableName, int key, string update)
+        public void Update(string tableName, int id, string update)
         {
             SQLiteConnection.Open();
-            ReadAll(SQLiteConnection, tableName);
+            ReadAll(tableName);
             var command = SQLiteConnection.CreateCommand();
 
             command.CommandText = $"UPDATE {tableName} SET {update} " +         //UPDATE selected table SET to where and what update say where the id = key input - SQL Command
-                $"WHERE id = {key} ";
+                $"WHERE id = {id} ";
             command.ExecuteNonQuery();                                          //Execute a non-query
-            ReadAll(SQLiteConnection, tableName);
+            ReadAll(tableName);
         }
 
         /// <summary>
@@ -183,15 +182,14 @@ namespace Lab5
         /// </summary>
         /// <param name="string tableName"> selected table </param>
         /// <param name="string key"> selected key </param>
-        public void Delete(string tableName,
-            int key)
+        public void Delete(string tableName,int id)
         {
             SQLiteConnection.Open();
-            ReadAll(SQLiteConnection, tableName);
+            ReadAll(tableName);
             var command = SQLiteConnection.CreateCommand();
-            command.CommandText = $"delete from {tableName} where id = {key}";  //Delete selected table where the id = key input - SQL Command
+            command.CommandText = $"delete from {tableName} where id = {id}";  //Delete selected table where the id = key input - SQL Command
             command.ExecuteNonQuery();                                          ////Execute a non-query
-            ReadAll(SQLiteConnection, tableName);
+            ReadAll(tableName);
         }
 
     }

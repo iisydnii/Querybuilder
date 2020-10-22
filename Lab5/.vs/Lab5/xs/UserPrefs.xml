@@ -1,16 +1,22 @@
 ﻿<Properties StartupConfiguration="{DB3A4393-92CC-4EE6-BF76-373AF9EE0521}|Default">
   <MonoDevelop.Ide.ItemProperties.Lab5 PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="QueryBuilder.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Models/Major.cs">
     <Files>
-      <File FileName="Program.cs" Line="36" Column="1" IsPinned="True" />
-      <File FileName="QueryBuilder.cs" Line="132" Column="21" />
+      <File FileName="Program.cs" Line="27" Column="12" IsPinned="True" />
+      <File FileName="QueryBuilder.cs" Line="179" Column="1" />
+      <File FileName="Student.cs" Line="4" Column="38" />
+      <File FileName="Course.cs" Line="4" Column="38" />
+      <File FileName="Major.cs" Line="5" Column="6" />
+      <File FileName="ClassModel.cs" Line="9" Column="36" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Lab5" expanded="True">
             <Node name="Lab5" expanded="True">
-              <Node name="QueryBuilder.cs" selected="True" />
+              <Node name="Models" expanded="True">
+                <Node name="Major.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
@@ -21,8 +27,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/QueryBuilder.cs" relfile="QueryBuilder.cs" line="88" column="1" />
-      <Breakpoint file="/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/QueryBuilder.cs" relfile="QueryBuilder.cs" line="33" column="1" />
+      <Breakpoint file="/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/QueryBuilder.cs" relfile="QueryBuilder.cs" line="87" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
