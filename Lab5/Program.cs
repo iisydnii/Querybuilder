@@ -28,7 +28,9 @@ namespace Lab5
             using (var connection = new SqliteConnection                        //estasblishing a connection to the database
                 ($"Data Source ={dbSource}/Database/myDatabase.db"))
             {
-                QueryBuilder queryBuilder = new QueryBuilder(connection);                     //Creating a instance of QueryBuilder class
+                QueryBuilder queryBuilder = new QueryBuilder(connection);
+                queryBuilder.ReadAll<Student>();
+                //Creating a instance of QueryBuilder class
                 //queryBuilder.Read("Student", "1");                  //Reading single line of Student table 
                 //queryBuilder.Read(connection, "Course", "1");                   //Reading single line of Course table
                 //create.Add("Abbreviation", "ACCT");
@@ -57,10 +59,11 @@ namespace Lab5
                 //create.Add("LastName", "Sels");
                 //queryBuilder.Create("Student", create);
                 //create.Clear();
-                queryBuilder.Update("Student", 7,                  
-                    "LastName = 'Mullins'");
-                queryBuilder.Update("Student", 8,
-                    "LastName = 'Sells'");
+                //queryBuilder.Update(student = new Student(2, "Sydni", "Ward", "E00594751"));
+                //queryBuilder.Create(student = new Student(0, "Alex", "Ramsey", "E00593569"));
+                //queryBuilder.Delete(student = new Student(6, "Edward", "Hall", ""));
+                //queryBuilder.Update("Student", 8,
+                //    "LastName = 'Sells'");
                 //queryBuilder.Delete("Student", 1);
             }
 

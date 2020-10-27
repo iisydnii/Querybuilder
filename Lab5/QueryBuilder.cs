@@ -11,27 +11,21 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Reflection;
 using Microsoft.Data.Sqlite;
 
 namespace Lab5
 {
     public class QueryBuilder
     {
-        
-        List<string> list = new List<string>();
-        List<string> list2 = new List<string>();
-        List<Dictionary<int, List<String>>> database;
-        List<Dictionary<int, List<String>>> selectiveQuery;
-
         /// <summary>
         /// Parameterized constructor: QueryBuilder
         /// </summary>
         /// <param name="SqliteConnection connection">Connection to the database</param>
         public QueryBuilder(SqliteConnection connection)
         {
-            database = new List<Dictionary<int, List<String>>>();
-            selectiveQuery = new List<Dictionary<int, List<string>>>();
             this.SQLiteConnection = connection;                                      //setting connection
+            SQLiteConnection.Open();
         }
 
         /// <summary>
@@ -39,30 +33,26 @@ namespace Lab5
         /// </summary>
         public SqliteConnection SQLiteConnection { get; set; }  //Open and Return Connection
 
-
         /// <summary>
         /// ReadAll - Read entire of selected table
         /// </summary>
-        /// <param name="string tableName">selected table</param>
+        /// <param name="T"> object T </param>
         /// <returns> Database dictionary </returns>
-        public List<Dictionary<int, List<String>>> ReadAll(string tableName)
+        public T ReadAll<T>() where T : new()
         {
-            SQLiteConnection.Open();
-            database.Clear();                                                   //Empty the dictionary 
+            List<T> list = new List<T>();
+            var t = new T();
             var command = SQLiteConnection.CreateCommand();
-            command.CommandText = $"select * from {tableName}";                 //Select all SQL Command
+            command.CommandText = $"select * from {typeof(T).Name}";            //Select all SQL Command
             SqliteDataReader reader = command.ExecuteReader();                  //Execute reader
 
             if (reader.HasRows)                                                 //If there are rows in database
             {
                 while (reader.Read())
                 {
-
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
-                        list.Add(reader.GetName(i) + ": " + reader.GetValue(i)); //GetName of colmun and that value of that row 
-                        database.Add(new Dictionary<int, List<String>>()         //Add it to a list then add that list to a dictionary key
-                        {{ i , list}});
+                        
                     }
                 }
             }
@@ -70,128 +60,132 @@ namespace Lab5
             {
                 Console.WriteLine("No rows found.");
             }
-
-            return database;
+            
+            return t;
         }
 
         /// <summary>
         /// Read - Read single line of selected table
         /// </summary>
-        /// <param name="string tableName"> selected table </param>
-        /// <param name="string key"> selected key </param>
+        /// <param name="T"> object T </param>
+        /// <param name="int id"> selected key </param>
         /// <returns> selectiveQuery dictionary </returns>
-        public List<Dictionary<int, List<String>>> Read                         //Reading single line
-            (string tableName, string id)
+        public T Read<T>(int id) where T : new()                   //Reading single line
         {
-            SQLiteConnection.Open();
+            List<T> list = new List<T>();
+            var t = new T();
             SqliteCommand command = SQLiteConnection.CreateCommand();
-            command.CommandText = $"select * from {tableName} where id = {id}";//Select * where the id = key input - SQL Command
+            command.CommandText = $"select * from {typeof(T).Name} where Id = {id}";//Select * where the id = key input - SQL Command
             SqliteDataReader reader = command.ExecuteReader();
 
             if (reader.HasRows)                                                 //If there are rows in database
             {
-                int index = 0;
                 while (reader.Read())
                 {
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
-                        list.Add(reader.GetName(i).ToString() + ": " +          //GetName of colmun and that value of that row 
-                            reader.GetValue(i).ToString());
+                        
                     }
-                    selectiveQuery.Add(new Dictionary<int, List<String>>()      //Add it to a list then add that list to a dictionary key
-                            {{ index , list}});
-                    index = index + 1;
                 }
             }
             else
             {
                 Console.WriteLine("No rows found.");
             }
-            return selectiveQuery;
+            return t;
         }
 
         /// <summary>
         /// Create - Insert new row
         /// </summary>
-        /// <param name="string tableName"> selected table </param>
-        /// <param name="Dictionary<string, string> create"> selected insert values</param>
-        public void Create(string tableName, Dictionary<string, string> create)
+        /// <param name="ClassModel update"> Object input </param>
+        public void Create(ClassModel update)
         {
-            SQLiteConnection.Open();
-
-            list.Clear();
-            list2.Clear();
             string updateCol = "";
             string updateVal = "";
-            
+            PropertyInfo[] properties = update.GetType().GetProperties();
+            int index = 0;
+
             var command = SQLiteConnection.CreateCommand();
-            foreach (var item in create)                                        //seperating the keys and value into their own lists
+
+            foreach (var item in properties)                                    //seperating the keys and value into their own lists
             {
-                list.Add(item.Key);
-                list2.Add(item.Value);
+                if (item.Name.ToString() != "Id" && index == 1)
+                {
+                    updateCol += " " + item.Name.ToString();
+                    updateVal += " '" + item.GetValue(update).ToString() + "'";
+                }
+                if (item.Name.ToString() != "Id" && index > 1)
+                {
+                    updateCol += ", " + item.Name.ToString();
+                    updateVal += ", '" + item.GetValue(update).ToString() + "'";
+                }
+                index++;
             }
-            
-            for (int i = 0; i < list.Count; i++)                                // turn the key lists into one single string 
-            {
-                if (i == 0)
-                {
-                    updateCol = " " + list[i].ToString();
-                }
-                else
-                {
-                    updateCol += ", " + list[i].ToString();
-                }
-            }
-            for (int i = 0; i < list2.Count; i++)                               // turn the values lists into one single string 
-            {
-                if (i == 0)
-                {
-                    updateVal = "'" + list2[i].ToString() + "'";
-                }
-                else
-                {
-                    updateVal += ", '" + list2[i].ToString() + "'";
-                }            }
-            command.CommandText = $"INSERT INTO {tableName} ( {updateCol} ) " + //insert sql statment with given data
+            command.CommandText = $"INSERT INTO {update.GetType().Name} ( {updateCol} ) " + //insert sql statment with given data
                 $"VALUES ( {updateVal} )";
             command.ExecuteNonQuery();                                          //Excute
-
-            ReadAll(tableName);
         }
 
         /// <summary>
         /// Update - Update selected col/row of selected table
         /// </summary>
-        /// <param name="string tableName"> selected table </param>
-        /// <param name="string key"> selected key </param>
-        /// <param name="string update"> selected col/row update</param>
-        public void Update(string tableName, int id, string update)
+        /// <param name="ClassModel update"> Object input </param>
+        public void Update(ClassModel update)
         {
-            SQLiteConnection.Open();
-            ReadAll(tableName);
+            PropertyInfo[] properties = update.GetType().GetProperties();
+            string changes = "";
+            int Id = 0;
+
             var command = SQLiteConnection.CreateCommand();
 
-            command.CommandText = $"UPDATE {tableName} SET {update} " +         //UPDATE selected table SET to where and what update say where the id = key input - SQL Command
-                $"WHERE id = {id} ";
+            foreach (var item in properties)
+            {
+                if (item.Name.ToString() == "Id")
+                {
+                    Id = (int)item.GetValue(update);
+                    changes += " " + item.Name.ToString() + " = '" + item.GetValue(update).ToString() + "'";
+                }
+                else
+                {
+                    changes += ", " + item.Name.ToString() + " = '" + item.GetValue(update).ToString() + "'";
+                }
+            }
+            command.CommandText = $"UPDATE {update.GetType().Name} SET {changes} " +         //UPDATE selected table SET to where and what update say where the id = key input - SQL Command
+                $"WHERE id = {Id} ";
             command.ExecuteNonQuery();                                          //Execute a non-query
-            ReadAll(tableName);
         }
 
         /// <summary>
         /// Delete - Delete selected row of selected table with selected key
         /// </summary>
-        /// <param name="string tableName"> selected table </param>
-        /// <param name="string key"> selected key </param>
-        public void Delete(string tableName,int id)
+        /// <param name="ClassModel update"> Object input </param>
+        public void Delete(ClassModel update)
         {
-            SQLiteConnection.Open();
-            ReadAll(tableName);
+            PropertyInfo[] properties = update.GetType().GetProperties();
+            var Id = 0;
+
             var command = SQLiteConnection.CreateCommand();
-            command.CommandText = $"delete from {tableName} where id = {id}";  //Delete selected table where the id = key input - SQL Command
-            command.ExecuteNonQuery();                                          ////Execute a non-query
-            ReadAll(tableName);
+
+            foreach (var item in properties)
+            {
+                if (item.Name.ToString() == "Id")
+                {
+                    Id = (int)item.GetValue(update);
+                    break;
+                }
+            }
+            command.CommandText = $"delete from {update.GetType().Name} where id = {Id}";  //Delete selected table where the id = key input - SQL Command
+            command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Dispose - Close connection
+        /// </summary>
+        public void Dispose()
+        {
+            SQLiteConnection.Close();
+        }
     }
 }
 
