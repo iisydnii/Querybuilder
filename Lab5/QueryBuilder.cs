@@ -38,30 +38,37 @@ namespace Lab5
         /// </summary>
         /// <param name="T"> object T </param>
         /// <returns> Database dictionary </returns>
-        public T ReadAll<T>() where T : new()
+        public List<T> ReadAll<T>() where T : new()
         {
+            PropertyInfo[] properties = typeof(T).GetProperties();
             List<T> list = new List<T>();
             var t = new T();
+            int id = 0;
             var command = SQLiteConnection.CreateCommand();
             command.CommandText = $"select * from {typeof(T).Name}";            //Select all SQL Command
             SqliteDataReader reader = command.ExecuteReader();                  //Execute reader
 
             if (reader.HasRows)                                                 //If there are rows in database
             {
-                while (reader.Read())
+                while (reader.Read())                                           //for rows
                 {
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
-                        
+                        if(reader.GetName(i).ToString() == "Id")
+                        {
+                            id = Int32.Parse(reader.GetValue(i).ToString());
+                        }
                     }
+                        
+                   list.Add(Read<T>(id));
                 }
             }
             else
             {
-                Console.WriteLine("No rows found.");
+                Console.WriteLine("No rows found. M1");
             }
             
-            return t;
+            return list;
         }
 
         /// <summary>
@@ -72,25 +79,42 @@ namespace Lab5
         /// <returns> selectiveQuery dictionary </returns>
         public T Read<T>(int id) where T : new()                   //Reading single line
         {
-            List<T> list = new List<T>();
+            PropertyInfo[] properties = typeof(T).GetProperties();
             var t = new T();
             SqliteCommand command = SQLiteConnection.CreateCommand();
-            command.CommandText = $"select * from {typeof(T).Name} where Id = {id}";//Select * where the id = key input - SQL Command
+            command.CommandText = $"select * from {typeof(T).Name} where Id = {id}";//Select * where the id = id input - SQL Command
             SqliteDataReader reader = command.ExecuteReader();
 
             if (reader.HasRows)                                                 //If there are rows in database
             {
-                while (reader.Read())
+                int index = 0;
+                while (reader.Read())                                           //for rows
                 {
-                    for (int i = 0; i < reader.FieldCount; i++)
+                    foreach (var item in properties)
                     {
-                        
+                        PropertyInfo single = typeof(T).GetProperty(item.Name);
+                        index = reader.GetOrdinal(item.Name);
+                        try
+                        {
+                            single.SetValue(t, reader.GetValue(index), null);
+                        }
+                        catch
+                        {
+                            if (item.Name.ToString() == "CreditHour")
+                            {
+                                single.SetValue(t, Int32.Parse(reader.GetValue(index).ToString()), null);
+                            }
+                            else
+                            {
+                                single.SetValue(t, "NULL", null);
+                            }
+                        }
                     }
                 }
             }
             else
             {
-                Console.WriteLine("No rows found.");
+                Console.WriteLine("No rows found.M2");
             }
             return t;
         }
@@ -143,7 +167,7 @@ namespace Lab5
             {
                 if (item.Name.ToString() == "Id")
                 {
-                    Id = (int)item.GetValue(update);
+                    Id = Int32.Parse(item.GetValue(update).ToString());
                     changes += " " + item.Name.ToString() + " = '" + item.GetValue(update).ToString() + "'";
                 }
                 else
@@ -171,7 +195,7 @@ namespace Lab5
             {
                 if (item.Name.ToString() == "Id")
                 {
-                    Id = (int)item.GetValue(update);
+                    Id = Int32.Parse(item.GetValue(update).ToString());
                     break;
                 }
             }

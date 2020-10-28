@@ -11,7 +11,10 @@ namespace Lab5
         public string LastName { get; set; }
         public string ENumber { get; set; }
 
-        public Student() { }
+        public Student()
+        {
+            list = new List<Student>();
+        }
         public Student(long Id, string FirstName, string LastName, string ENumber)
         {
             list = new List<Student>();

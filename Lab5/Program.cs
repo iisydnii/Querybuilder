@@ -19,17 +19,30 @@ namespace Lab5
     {
         static void Main(string[] args)
         {
-            Dictionary<string, string> create;
-            create = new Dictionary<string, string>();
-
             string dbSource = Directory.GetParent                               //dbSource is for getting the root directory 
                 (Directory.GetCurrentDirectory()).Parent.Parent.ToString();
            
             using (var connection = new SqliteConnection                        //estasblishing a connection to the database
                 ($"Data Source ={dbSource}/Database/myDatabase.db"))
             {
+                
                 QueryBuilder queryBuilder = new QueryBuilder(connection);
+                Course course;
+                Student student;
+                //queryBuilder.Create(course = new Course(0, 3, "1519", "Calculus 1", 4));
+                //queryBuilder.Create(course = new Course(0, 3, "1520", "Calculus 2", 4));
+                //queryBuilder.Create(student = new Student(0, "Jackson", "Pallock", "E00534562"));
+                //queryBuilder.Update(student = new Student(3, "Ethan", "Lane", "E00432967"));
+                //queryBuilder.Update(student = new Student(4, "Jeannie", "Blevins", "E00425687"));
+                //queryBuilder.Delete(student = new Student(8, "Nick", "Sells", ""));
+
                 queryBuilder.ReadAll<Student>();
+                queryBuilder.ReadAll<Course>();
+                queryBuilder.ReadAll<Major>();
+
+
+
+                //All of my tests!!!
                 //Creating a instance of QueryBuilder class
                 //queryBuilder.Read("Student", "1");                  //Reading single line of Student table 
                 //queryBuilder.Read(connection, "Course", "1");                   //Reading single line of Course table

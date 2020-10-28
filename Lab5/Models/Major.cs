@@ -11,7 +11,9 @@ namespace Lab5
         public string Name { get; set; }
 
         public Major()
-        { }
+        {
+            list = new List<Major>();
+        }
         public Major(long Id, string Abbreviation, string Name)
         {
             list = new List<Major>();
