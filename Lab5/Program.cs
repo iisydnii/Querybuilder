@@ -40,6 +40,9 @@ namespace Lab5
                 queryBuilder.ReadAll<Course>();
                 queryBuilder.ReadAll<Major>();
 
+                queryBuilder.Delete(student = new Student(10, "Jaskson", "Pollack", ""));
+                queryBuilder.Create(student = new Student(0, "jill", "Pallock", "E00533462"));
+
 
 
                 //All of my tests!!!
