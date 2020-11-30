@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "floJ+mMHdNaK1vU1Cy7y1O0KEWPbQS4cUGFCxDaVZ36yrUZ9OY2o/05OYHIsjYGj34/BOu4wg74o37/P0F1oLA==",
+  "success": true,
+  "projectFilePath": "/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/Lab5.csproj",
+  "expectedPackageFiles": [
+    "/Users/sydniward/.nuget/packages/microsoft.data.sqlite/3.1.9/microsoft.data.sqlite.3.1.9.nupkg.sha512",
+    "/Users/sydniward/.nuget/packages/microsoft.data.sqlite.core/3.1.9/microsoft.data.sqlite.core.3.1.9.nupkg.sha512",
+    "/Users/sydniward/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.0.2/sqlitepclraw.bundle_e_sqlite3.2.0.2.nupkg.sha512",
+    "/Users/sydniward/.nuget/packages/sqlitepclraw.core/2.0.2/sqlitepclraw.core.2.0.2.nupkg.sha512",
+    "/Users/sydniward/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.0.2/sqlitepclraw.lib.e_sqlite3.2.0.2.nupkg.sha512",
+    "/Users/sydniward/.nuget/packages/sqlitepclraw.provider.dynamic_cdecl/2.0.2/sqlitepclraw.provider.dynamic_cdecl.2.0.2.nupkg.sha512",
+    "/Users/sydniward/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512"
+  ],
+  "logs": []
+}

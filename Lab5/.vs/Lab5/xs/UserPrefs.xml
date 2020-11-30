@@ -1,0 +1,34 @@
+﻿<Properties StartupConfiguration="{DB3A4393-92CC-4EE6-BF76-373AF9EE0521}|Default">
+  <MonoDevelop.Ide.ItemProperties.Lab5 PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="QueryBuilder.cs">
+    <Files>
+      <File FileName="Program.cs" Line="41" Column="1" IsPinned="True" />
+      <File FileName="QueryBuilder.cs" Line="42" Column="1" />
+      <File FileName="ClassModel.cs" />
+      <File FileName="Models/Major.cs" />
+      <File FileName="Models/Student.cs" />
+      <File FileName="Models/Course.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Lab5" expanded="True">
+            <Node name="Lab5" expanded="True">
+              <Node name="Database" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="QueryBuilder.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/sydniward/Desktop/Server Side/Projects/assignment-5-querybuilder-iisydnii/Lab5/Program.cs" relfile="Program.cs" line="41" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
